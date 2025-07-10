@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Smart Study Planner", layout="centered")
-st.title("📘 Smart Study Planner V2.1")
+st.title("📘 Smart Study Planner")
 st.subheader("🎓 Plan Smarter, Study Sharper")
 
 # ----- Session Storage -----
