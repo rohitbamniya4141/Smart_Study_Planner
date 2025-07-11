@@ -122,9 +122,19 @@ if st.session_state.daily_plan and st.button("📊 Show Charts"):
 
 # ----- Export CSV -----
 if st.session_state.daily_plan:
-    export_df = pd.DataFrame([
-        [day, sub, mins]
-        for day, tasks in st.session_state.daily_plan.items()
-        for sub, mins in tasks
-    ], columns=["Day", "Subject", "Minutes"])
+    subject_info = {s['Subject']: s for s in st.session_state.subjects}
+    export_data = []
+    for day, tasks in st.session_state.daily_plan.items():
+        for sub, mins in tasks:
+            meta = subject_info.get(sub, {})
+            export_data.append({
+                "Day": day,
+                "Subject": sub,
+                "Minutes": mins,
+                "Deadline": meta.get("Deadline", ""),
+                "Importance": meta.get("Importance", ""),
+                "Difficulty": meta.get("Difficulty", ""),
+                "Notes": meta.get("Notes", "")
+            })
+    export_df = pd.DataFrame(export_data)
     st.download_button("💾 Export Plan CSV", export_df.to_csv(index=False), file_name="study_plan.csv", mime="text/csv")
